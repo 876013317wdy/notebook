@@ -1,0 +1,22 @@
+1）关于storm 热点商品信息
+// 1、将自己的taskid写入一个zookeeper node(  /taskid-list  )中，形成taskid的列表
+// 2、然后每次都将自己的热门商品列表，写入自己的taskid对应的zookeeper ( "/task-hot-product-list-" + taskid, topnProductListJSON)节点
+// 3、然后这样的话，并行的预热程序才能从第一步中知道，有哪些taskid
+// 4、然后并行预热程序根据每个taskid去获取一个锁，然后再从对应的znode中拿到热门商品列表, 接着对每个商品进行查询，接着放redis里
+
+2）商品数据表结构
+Stock keeping Unit(库存保有单位)
+库存保有单位即库存进出计量的单位， 可以是以件、盒、托盘等为单位。SKU是物理上不可分割的最小存货单元。在使用时要根据不同业态，不同管理模式来处理。在服装鞋类商品中使用最多最普遍
+
+SPU = Standard Product Unit （标准产品单位）
+SPU是商品信息聚合的最小单位，是一组可复用、易检索的标准化信息的集合，该集合描述了一个产品的特性。
+
+3)拆单
+https://www.jianshu.com/p/5b7c5479a650
+淘宝是在下单的时候就已经把订单按照不同的商家进行拆分了，所以不像京东那样会有父订单和子订单，同一个商家下的商品还是会合并在一个订单中
+
+4) 商品数据结构以及数据库表结构的分析和整理
+https://blog.csdn.net/weixin_41491254/article/details/81323487
+
+5）Sku和Spu以及电商项目商品的设计思路
+https://blog.csdn.net/weixin_41491254/article/details/81286588
